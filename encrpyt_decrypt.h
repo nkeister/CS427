@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 
-#define MAX 128
+#define MAX2 128
 
 /*          COLORS           */
 #define RED "\x1B[31m"
@@ -11,13 +11,15 @@
 #define RESET "\x1B[0m"
 #define R_BOLD "\x1B[31m" \
                "\033[1m"
+#define B_BOLD "\033[0;30m" \
+               "\033[1m"
 /*                           */
 
-int string2chars(char temp[MAX]);
-int stringbreak(char temp2[MAX]);
-int hashfunction(char temp3[MAX]);
+int string2chars(char temp[MAX2]);
+int stringbreak(char temp2[MAX2]);
+int hashfunction(char temp3[MAX2]);
 
-int string2chars(char temp[MAX])
+int string2chars(char temp[MAX2])
 {
     int i = 0;
     //printf(".h FILE: %s\n", temp);
@@ -26,7 +28,7 @@ int string2chars(char temp[MAX])
     hashfunction(temp);
 }
 
-int stringbreak(char temp2[MAX])
+int stringbreak(char temp2[MAX2])
 {
     char stringofchar[128];
     char *token;
@@ -42,7 +44,7 @@ int stringbreak(char temp2[MAX])
     return *stringofchar;
 }
 
-int hashfunction(char temp3[MAX])
+int hashfunction(char temp3[MAX2])
 {
     int i = 0, size = 0, ascii_sum = 0;
     int ascii_dummy, salt_count, ascii_temp, n;
@@ -103,13 +105,15 @@ int hashfunction(char temp3[MAX])
         quotient = quotient / 16;
     }
 
-    printf(R_BOLD"hashed to hex: ");
+    printf(R_BOLD "hashed to hex: ");
     for (int e = k - 1; e >= 0; e--)
     {
         printf("%c", hexencrypt[e]); //printf hex form of hash from [0-5]
     }
 
-    printf(RESET"\n");
+    exportpassword(hexencrypt);
+    printf(RESET "\n");
+    read_file(hexencrypt);
 }
 
 void exportpassword(char count[16])
@@ -122,7 +126,7 @@ void exportpassword(char count[16])
         exit(1);
     }
 
-    for (int i = 0; i < sizeof(count) / sizeof(count[0]); i++)
+    for (int i = 0; i < sizeof(count) / sizeof(count[0]) + 2; i++)
     {
         fprintf(outfile, "%c", count[i]); //data to be exported
     }
@@ -133,10 +137,30 @@ void exportpassword(char count[16])
 void read_file(char count2[16])
 {
     FILE *infile = fopen("export2.txt", "r");
+    FILE *outfile = fopen("export.txt", "r");
     char buf[16];
     char buf2[16];
 
-    fscanf(infile, "%s", buf);//read string from file
-    printf("%s", buf);  
+    fscanf(infile, "%s", buf); //read string from file
+    //printf("%s", buf);
+
+    fscanf(outfile, "%s", buf2); //read string from file
+    //printf("\n%s\n", buf2);
+
+    if (strcmp(buf, buf2) == 0) //compare if files are the same
+    {
+        printf(B_BOLD "ACCESS GRANTED\n" RESET);
+    }
+    else if (strcmp(buf, buf2) != 0) //compare if files are different
+    {
+        printf(R_BOLD "INCORRECT PASSWORD! EXITING NOW\n" RESET);
+        exit(0);
+    }
+    else
+    {
+        printf("no idea\n");
+    }
+
+    fclose(outfile);
     fclose(infile);
 }

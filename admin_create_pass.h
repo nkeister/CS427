@@ -110,8 +110,9 @@ int hashfunction(char temp3[MAX])
     {
         printf("%c", hexencrypt[e]); //printf hex form of hash from [0-5]
     }
-
+    exportpassword(hexencrypt);
     printf(RESET "\n");
+    read_file(hexencrypt);
 }
 
 void exportpassword(char count[16])
@@ -124,7 +125,7 @@ void exportpassword(char count[16])
         exit(1);
     }
 
-    for (int i = 0; i < sizeof(count) / sizeof(count[0]); i++)
+    for (int i = 0; i < sizeof(count)/sizeof(count[0]) + 2; i++)
     {
         fprintf(outfile, "%c", count[i]); //data to be exported
     }
@@ -136,10 +137,8 @@ void read_file(char count2[16])
 {
     FILE *infile = fopen("export.txt", "r");
     char buf[16];
-    char buf2[16];
 
     fscanf(infile, "%s", buf);//read string from file
     printf("%s", buf);
-
-    return;
+    fclose(infile);
 }

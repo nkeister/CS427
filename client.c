@@ -411,7 +411,7 @@ main(int argc, char *argv[])
     char *hostname;
     int lower = 10000, upper = 99999, count = 1, token2;
 
-    /*      Confirm Users password      
+    /*      Confirm Users password      */
     char line9[MAX];
     char userPassword9[MAX];
 
@@ -423,9 +423,7 @@ main(int argc, char *argv[])
 
     printf(R_BOLD"MAIN: Password Entered: %s\n"RESET, userPassword9);
     string2chars(userPassword9);
-    //exportpassword(userPassword9);
-    //read_file(userPassword9);
-                                      */
+    /*                                  */
 
     if (argc < 2)
         hostname = "localhost";

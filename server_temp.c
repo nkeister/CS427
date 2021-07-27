@@ -25,8 +25,10 @@
 #define WHT "\x1B[37m"
 #define RESET "\x1B[0m"
 #define BOLD "\033[1m"
-#define R_BOLD "\x1B[31m" "\033[1m"
-#define B_BOLD "\033[0;30m" "\033[1m"
+#define R_BOLD "\x1B[31m" \
+               "\033[1m"
+#define B_BOLD "\033[0;30m" \
+               "\033[1m"
 #define BLACK "\033[0;30m"
 
 #endif // COLOR_H
@@ -304,8 +306,8 @@ int server_init(char *name)
         printf("unknown host\n");
         exit(1);
     }
-    inet_ntop(AF_INET, hp->h_addr, serstr, INET_ADDRSTRLEN); // convert IP binary to text form
-    printf(B_BOLD"    hostname=%s  IP=%s\n"RESET, hp->h_name, serstr);  //print hostname and IP
+    inet_ntop(AF_INET, hp->h_addr, serstr, INET_ADDRSTRLEN);             // convert IP binary to text form
+    printf(B_BOLD "    hostname=%s  IP=%s\n" RESET, hp->h_name, serstr); //print hostname and IP
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     //%%%%%%%%%%%% create a TCP socket by socket() syscall %%%%%%%%%%%%%%%%%%%%
     printf("2 : create a socket\n");
@@ -346,8 +348,8 @@ int server_init(char *name)
         exit(4);
     }
 
-    serverPort = ntohs(name_addr.sin_port); // convert to host ushort
-    printf(B_BOLD"    Port=%d\n"RESET, serverPort);    //print port number for connection
+    serverPort = ntohs(name_addr.sin_port);           // convert to host ushort
+    printf(B_BOLD "    Port=%d\n" RESET, serverPort); //print port number for connection
     printf("5 : server is listening ....\n");
     /*
         listen() marks the socket referred to by sockfd as a socket that will
@@ -384,7 +386,7 @@ main(int argc, char *argv[])
     int len = 0, check = 1;
     int i = 0;
 
-    /*      Create Temporary User Password     
+    /*      Create Temporary User Password    */ 
     char line9[MAX];
     char userPassword9[MAX];
 
@@ -396,9 +398,7 @@ main(int argc, char *argv[])
 
     printf(R_BOLD"MAIN: Password Entered: %s\n"RESET, userPassword9);
     string2chars(userPassword9);
-    exportpassword(userPassword9);
-    read_file(userPassword9);
-                                      */
+    /*                                  */
 
     if (argc < 2)
         hostname = "localhost"; //default hostname
@@ -426,7 +426,7 @@ main(int argc, char *argv[])
         printf("server: accepted a client connection from\n");
         printf("-----------------------------------------------\n");
         inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, serstr, INET_ADDRSTRLEN); // convert IP binary to test form
-        printf(B_BOLD"        IP=%s  port=%d\n"RESET, serstr, ntohs(client_addr.sin_port));
+        //printf(B_BOLD "        IP=%s  port=%d\n" RESET, serstr, ntohs(client_addr.sin_port));
         printf("-----------------------------------------------\n");
 
         // Processing loop: newsock <----> client
@@ -498,7 +498,7 @@ main(int argc, char *argv[])
                 put();
             }
             printf("server: wrote n=%d bytes; ECHO=[%s]\n", n, line);
-            printf(BLACK"server: ready for next request\n"RESET);
+            printf(BLACK "server: ready for next request\n" RESET);
             i = 0;
             while (paths[i])
             {
