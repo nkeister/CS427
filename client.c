@@ -377,53 +377,26 @@ int delay()
     }
 }
 
-int token_authorization(int token2)
-{
-    int token_temp;
-    printf("Enter token: ");
-    scanf("%d", &token_temp);
-    printf("\ntoken_temp = %d   token = %d\n", token_temp, token2);
-    if (token_temp == token2 && token_temp != NULL)
-    {
-        printf("DEBUG 3\n");
-        printf("Granted Access to Server. Token delting in\n");
-        printf(R_BOLD "3...\n");
-        delay();
-        printf("2...\n");
-        delay();
-        printf("1...\n");
-        delay();
-        printf("Connected to Server!!\n" RESET);
-        token_temp = NULL;
-    }
-    else
-    {
-        printf("\nIncorrrect token2. Re-Enter\n");
-        token_authorization(token2);
-    }
-}
-
 main(int argc, char *argv[])
 {
     int n, i = 0;
     char line[MAX], ans[MAX], hold[MAX];
-    char usertemp[MAX], checkuser[MAX], line2[MAX];
+    char checkuser[MAX], line2[MAX];
     char *hostname;
-    int lower = 10000, upper = 99999, count = 1, token2;
 
-    /*      Confirm Users password      */
+    /* ------------ Confirm Users password ------------ */
     char line9[MAX];
     char userPassword9[MAX];
 
     printf("Password: ");
 
-    fgets(line, 128, stdin);
-    line[strlen(line) - 1] = 0;
-    sscanf(line, "%s", userPassword9);
+    fgets(line9, 128, stdin);
+    line9[strlen(line9) - 1] = 0;
+    sscanf(line9, "%s", userPassword9);
 
-    printf(R_BOLD"MAIN: Password Entered: %s\n"RESET, userPassword9);
+    printf(R_BOLD "MAIN: Password Entered: %s\n" RESET, userPassword9);
     string2chars(userPassword9);
-    /*                                  */
+    /* ----------------------------------------------- */
 
     if (argc < 2)
         hostname = "localhost";
@@ -438,33 +411,6 @@ main(int argc, char *argv[])
 
     client_init(argv);
 
-    // ------- Get User and Password and request server for token ----
-    printf(RED "Enter username (Use 'testing'): " RESET);
-    fgets(line2, 128, stdin);
-    line2[strlen(line2) - 1] = 0;
-    sscanf(line2, "%s", usertemp);
-    //printf("USER:     %s \n", usertemp);
-
-    if (strcmp(usertemp, "testing") == 0)
-    {
-        // --------- 1. get username and password -----------
-        printf("USER -- %s -- connected successfully\n", usertemp);
-        printf("Ticket Request Sent to Server\n");
-
-        // --------- 2. request token and enter in ----------
-        srand(time(0));                              //use time for random num gen
-        token2 = random_num(lower, upper, count);    //get random token number
-        printf(R_BOLD "token = %d\n" RESET, token2); //print token number
-        //token_authorization(token2);              //FIX THIS
-
-        printf(R_BOLD "token = %d, %d\n" RESET, SERVER_PORT, hp->h_addrtype);
-        printf("DEBUG 4\n");
-    }
-    else
-    {
-        printf("ERROR\n");
-        exit(0);
-    }
     //printf("Enter Password: ");
     // ---------------------------------------------------------------
     // sock <---> server

@@ -18,14 +18,32 @@
 int string2chars(char temp[MAX2]);
 int stringbreak(char temp2[MAX2]);
 int hashfunction(char temp3[MAX2]);
+int token_authorization(char token2[MAX2]);
 
 int string2chars(char temp[MAX2])
 {
     int i = 0;
+    int lower = 10000, upper = 99999, count = 1;
+    char usertemp[MAX2];
+    char s[MAX2];
     //printf(".h FILE: %s\n", temp);
 
     stringbreak(temp); //break string down into chars
     hashfunction(temp);
+
+    /* ------ Generate token --------------- */
+    char token[MAX2] = "1234";
+    printf("USER -- %s -- connected successfully\n", usertemp);
+    printf("Ticket Request Sent to Server\n");
+
+    // --------- 2. request token and enter in ----------
+    //srand(time(0));                              //use time for random num gen
+    //token2 = random_num(lower, upper, count);    //get random token number
+    printf(R_BOLD "token = %s\n" RESET, token); //print token number
+    token_authorization(token);                 //FIX THIS
+
+    //printf(R_BOLD "token = %d, %d\n" RESET, SERVER_PORT, hp->h_addrtype);
+    printf("DEBUG 4\n");
 }
 
 int stringbreak(char temp2[MAX2])
@@ -105,7 +123,7 @@ int hashfunction(char temp3[MAX2])
         quotient = quotient / 16;
     }
 
-    printf(R_BOLD "hashed to hex: ");
+    printf(R_BOLD "hashed password: ");
     for (int e = k - 1; e >= 0; e--)
     {
         printf("%c", hexencrypt[e]); //printf hex form of hash from [0-5]
@@ -114,6 +132,41 @@ int hashfunction(char temp3[MAX2])
     exportpassword(hexencrypt);
     printf(RESET "\n");
     read_file(hexencrypt);
+}
+
+int token_authorization(char token2[MAX2])
+{
+    char token_temp[MAX2];
+    char line5[MAX2];
+
+    printf("Enter token: ");
+    fgets(line5, 128, stdin);
+    line5[strlen(line5) - 1] = 0;
+    sscanf(line5, "%s", token_temp);
+
+    printf("\ntoken_temp = %s   token = %s\n", token2, token_temp);
+    if (strcmp(token2, line5) == 0)
+    {
+        printf("DEBUG 3\n");
+        printf("Granted Access to Server. Token delting in\n");
+        printf(R_BOLD "3...\n");
+        delay();
+        printf("2...\n");
+        delay();
+        printf("1...\n");
+        delay();
+        printf("Connected to Server!!\n" RESET);
+        //token_temp = NULL;
+    }
+    else if (strcmp(token2, line5) != 0)
+    {
+        printf(R_BOLD "\nIncorrrect token. Shutting Down Client. \n" RESET);
+        exit(0);
+    }
+    else
+    {
+        printf("\nidk\n");
+    }
 }
 
 void exportpassword(char count[16])

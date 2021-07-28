@@ -105,7 +105,7 @@ int hashfunction(char temp3[MAX])
         quotient = quotient / 16;
     }
 
-    printf(R_BOLD "hashed to hex: ");
+    printf(R_BOLD "hashed password: ");
     for (int e = k - 1; e >= 0; e--)
     {
         printf("%c", hexencrypt[e]); //printf hex form of hash from [0-5]
